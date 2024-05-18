@@ -1,21 +1,22 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://assets/tower_blue.png" type="Texture" id=1]
+[ext_resource path="res://assets/tower_pink.png" type="Texture" id=1]
 [ext_resource path="res://scripts/tower.gd" type="Script" id=2]
-[ext_resource path="res://assets/tower_pink.png" type="Texture" id=3]
-[ext_resource path="res://assets/bullet_blue_shadow.png" type="Texture" id=4]
+[ext_resource path="res://assets/tower_purple.png" type="Texture" id=3]
+[ext_resource path="res://assets/bullet_purple_shadow.png" type="Texture" id=4]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 100.0
 
 [node name="tower" type="Node2D" groups=["tower"]]
 script = ExtResource( 2 )
-tower = ExtResource( 1 )
+tower = ExtResource( 3 )
 bullet_texture = ExtResource( 4 )
+effect_slow = true
 
 [node name="head" type="Sprite" parent="."]
 scale = Vector2( 0.4, 0.4 )
-texture = ExtResource( 3 )
+texture = ExtResource( 1 )
 centered = false
 
 [node name="sight" type="Area2D" parent="."]

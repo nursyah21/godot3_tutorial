@@ -23,6 +23,10 @@ func _physics_process(delta):
 		$head.look_at(curr_enemy.global_position)
 
 
+func _process(delta):
+	pass
+		
+
 func _on_sight_area_entered(area):
 	if area.is_in_group("enemy"):
 		enemy.append(area)
@@ -42,5 +46,6 @@ func _on_shoot_timeout():
 		
 		if effect_slow:
 			b.add_to_group("slow")
+		
 		
 		get_parent().add_child(b)

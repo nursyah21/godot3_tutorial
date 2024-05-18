@@ -1,18 +1,26 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/white.png" type="Texture" id=1]
 [ext_resource path="res://audio/backsound.mp3" type="AudioStream" id=2]
 [ext_resource path="res://assets/icon.png" type="Texture" id=3]
 [ext_resource path="res://scripts/Menu.gd" type="Script" id=4]
+[ext_resource path="res://audio/click_001.ogg" type="AudioStream" id=5]
+
+[sub_resource type="Theme" id=1]
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 4 )
+click = ExtResource( 5 )
 
 [node name="backsound" type="AudioStreamPlayer" parent="."]
+pause_mode = 2
 stream = ExtResource( 2 )
+volume_db = -10.0
 autoplay = true
 
 [node name="effect" type="AudioStreamPlayer" parent="."]
+pause_mode = 2
+autoplay = true
 
 [node name="Menu" type="Node2D" parent="."]
 
@@ -34,6 +42,7 @@ tab_size = 7
 text = "CUBE BROTHER"
 
 [node name="play" type="Button" parent="Menu"]
+modulate = Color( 1, 1, 1, 0.854902 )
 margin_left = -55.0
 margin_top = -22.0
 margin_right = 57.0
@@ -41,8 +50,26 @@ margin_bottom = 8.0
 text = "Play"
 clip_text = true
 
+[node name="Panel" type="Panel" parent="Menu"]
+modulate = Color( 1, 1, 1, 0.690196 )
+margin_left = -39.0
+margin_top = 23.0
+margin_right = 40.0
+margin_bottom = 53.0
+
+[node name="sound" type="CheckBox" parent="Menu"]
+pause_mode = 2
+margin_left = -35.0
+margin_top = 26.0
+margin_right = 32.0
+margin_bottom = 50.0
+theme = SubResource( 1 )
+pressed = true
+text = "sound"
+
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( -1, -119 )
 texture = ExtResource( 3 )
 
 [connection signal="button_down" from="Menu/play" to="." method="_on_play_button_down"]
+[connection signal="pressed" from="Menu/sound" to="." method="_on_sound_pressed"]

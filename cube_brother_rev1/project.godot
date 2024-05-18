@@ -12,6 +12,9 @@ config_version=4
 
 config/name="Cube Brother Rev 1"
 run/main_scene="res://scenes/Main.tscn"
+boot_splash/image="res://assets/icon.png"
+boot_splash/fullsize=false
+boot_splash/bg_color=Color( 1, 1, 1, 1 )
 config/icon="res://icon.png"
 
 [display]
