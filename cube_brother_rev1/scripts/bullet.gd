@@ -3,9 +3,11 @@ extends Area2D
 var move = Vector2.ZERO
 var speed = 3
 var look_vec = Vector2.ZERO
+export var texture : Texture
 var target
 
 func _ready():
+	$Sprite.texture = texture
 	if target != null:
 		$Sprite.look_at(target.global_position)
 		look_vec = target.global_position - global_position
