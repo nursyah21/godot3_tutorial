@@ -1,7 +1,7 @@
 extends Node2D
 
 var mob = preload("res://scenes/enemy.tscn")
-export var wave_mobs = [1,3,6,10,15,20,30]
+export (Array, int) var wave_mobs = [1,3,6,10,15,20,30]
 export var money = 100
 export var price_tower_blue = 100
 export var price_tower_pink = 200
@@ -77,6 +77,13 @@ func _process(_delta):
 	if money < price_tower_purple:
 		$ui/hud/tower_purple.modulate = Color(1,1,1,.2)
 	
+	if money >= price_tower_blue:
+		$ui/hud/tower_blue.modulate = Color(1,1,1, 1)
+	if money >= price_tower_pink:
+		$ui/hud/tower_pink.modulate = Color(1,1,1, 1)
+	if money >= price_tower_purple:
+		$ui/hud/tower_purple.modulate = Color(1,1,1,1)
+	
 	if build_mode:
 		update_tower_preview()
 	
@@ -91,6 +98,7 @@ func _unhandled_input(event):
 	if event.is_action_pressed("ui_accept") and build_mode:
 		verify_and_build()
 		cancel_build_mode()
+	
 	
 func _on_tower_blue_pressed():	
 	if money >= price_tower_blue:
@@ -150,6 +158,7 @@ func verify_and_build():
 
 var music_bus = AudioServer.get_bus_index("Master")
 func _on_sound_pressed():
+	GameData.audio_play = $ui/pause/sound.pressed
 	AudioServer.set_bus_mute(music_bus, ! $ui/pause/sound.pressed)
 
 func _on_restart_pressed():
@@ -159,4 +168,6 @@ func _on_restart_pressed():
 	print(i)
 
 func _on_next_pressed():
-	print('next level')
+	GameData.audio_seek = $backsound.get_playback_position()
+	return get_tree().change_scene("res://scenes/Level2.tscn")
+	

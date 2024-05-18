@@ -32,7 +32,7 @@ func _on_Area2D_area_entered(area):
 		if health <= 0:
 			get_parent().get_parent().remaining_enemy -= 1
 			print(get_parent().get_parent().remaining_enemy)
-			get_parent().get_parent().money += 10
+			get_parent().get_parent().money += 15
 			if get_parent().get_parent().remaining_enemy == 1:
 				get_parent().get_parent().win = true
 				

@@ -15,7 +15,8 @@ func _ready():
 	$shoot.wait_time = 1/speed
 	if ready:
 		$head.centered = true
-
+	if $range and ready:
+		$range.visible = false
 
 func _physics_process(delta):
 	if enemy != [] and ready:
