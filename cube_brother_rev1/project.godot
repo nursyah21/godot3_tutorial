@@ -17,6 +17,10 @@ boot_splash/fullsize=false
 boot_splash/bg_color=Color( 1, 1, 1, 1 )
 config/icon="res://icon.png"
 
+[autoload]
+
+GameData="*res://singletons/GameData.gd"
+
 [display]
 
 window/size/width=320

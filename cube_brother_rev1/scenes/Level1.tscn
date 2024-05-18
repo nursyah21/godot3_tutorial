@@ -1,7 +1,7 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://assets/white.png" type="Texture" id=1]
-[ext_resource path="res://scripts/Level1.gd" type="Script" id=2]
+[ext_resource path="res://scripts/Level.gd" type="Script" id=2]
 [ext_resource path="res://assets/path_blue.png" type="Texture" id=3]
 [ext_resource path="res://assets/white_shadow.png" type="Texture" id=4]
 [ext_resource path="res://scripts/ui.gd" type="Script" id=5]
@@ -14,6 +14,7 @@
 [ext_resource path="res://assets/button_outline_blue.png" type="Texture" id=12]
 [ext_resource path="res://assets/button_blue.png" type="Texture" id=13]
 [ext_resource path="res://fonts/Roboto-Regular.ttf" type="DynamicFontData" id=14]
+[ext_resource path="res://audio/backsound.mp3" type="AudioStream" id=15]
 
 [sub_resource type="TileSet" id=1]
 0/name = "path_blue.png 0"
@@ -270,6 +271,44 @@ margin_right = 209.0
 margin_bottom = 281.0
 text = "restart"
 
+[node name="lose" type="Node2D" parent="ui"]
+position = Vector2( -188, -286 )
+
+[node name="pause_menu" type="Panel" parent="ui/lose"]
+visible = false
+modulate = Color( 1, 1, 1, 0.615686 )
+margin_right = 373.0
+margin_bottom = 569.0
+
+[node name="restart" type="LinkButton" parent="ui/lose"]
+pause_mode = 2
+visible = false
+margin_left = 167.0
+margin_top = 267.0
+margin_right = 209.0
+margin_bottom = 281.0
+focus_mode = 2
+text = "try again"
+
+[node name="win" type="Node2D" parent="ui"]
+position = Vector2( -188, -286 )
+
+[node name="pause_menu" type="Panel" parent="ui/win"]
+visible = false
+modulate = Color( 1, 1, 1, 0.615686 )
+margin_right = 373.0
+margin_bottom = 569.0
+
+[node name="next" type="LinkButton" parent="ui/win"]
+pause_mode = 2
+visible = false
+margin_left = 157.0
+margin_top = 267.0
+margin_right = 220.0
+margin_bottom = 281.0
+focus_mode = 2
+text = "next level"
+
 [node name="pause_btn" type="TextureButton" parent="ui"]
 pause_mode = 2
 margin_left = 126.0
@@ -292,6 +331,13 @@ margin_bottom = 9.5
 custom_fonts/font = SubResource( 9 )
 text = "Level 1"
 
+[node name="backsound" type="AudioStreamPlayer" parent="."]
+pause_mode = 2
+stream = ExtResource( 15 )
+
+[node name="effect" type="AudioStreamPlayer" parent="."]
+pause_mode = 2
+
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="area_entered" from="end" to="." method="_on_end_area_entered"]
 [connection signal="pressed" from="ui/hud/tower_pink" to="." method="_on_tower_pink_pressed"]
@@ -299,4 +345,6 @@ text = "Level 1"
 [connection signal="pressed" from="ui/hud/tower_purple" to="." method="_on_tower_purple_pressed"]
 [connection signal="pressed" from="ui/pause/sound" to="." method="_on_sound_pressed"]
 [connection signal="pressed" from="ui/pause/restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="ui/lose/restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="ui/win/next" to="." method="_on_next_pressed"]
 [connection signal="pressed" from="ui/pause_btn" to="." method="_on_pause_pressed"]

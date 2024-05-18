@@ -9,6 +9,8 @@ export var price_tower_purple = 150
 var _money
 var instance
 var remaining_enemy
+var fail = false
+var win = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -16,10 +18,11 @@ func _ready():
 	_money = $ui/hud/money
 	remaining_enemy = len(wave_mobs)
 	print('remaining enemy: '+ str(remaining_enemy))
+	$ui/pause/sound.pressed = GameData.audio_play	
+	$backsound.play(GameData.audio_seek)
 	
 var n = 1
 var curr = 0
-
 func _on_Timer_timeout():
 	if wave_mobs[curr] == n:
 		instance = mob.instance()
@@ -28,18 +31,23 @@ func _on_Timer_timeout():
 		curr += 1
 	n+=1
 	
-	#print("remaining: "+ str(remaining_enemy))
-	
 	if curr == len(wave_mobs) -1:
 		print('last enemy')
 		$Timer.stop()
 
-
 func _on_end_area_entered(area):
 	if area.is_in_group("enemy"):
-		print("fail")
+		fail = true
+		get_tree().paused = true
+		$ui/pause_btn.texture_normal = load("res://assets/pause.png")
+		for i in $ui/lose.get_children():
+			i.visible = true
 
 func _on_pause_pressed():
+	if fail or win:
+		return
+	$effect.stream = load("res://audio/click_001.ogg")
+	$effect.play()
 	
 	if get_tree().is_paused():
 		get_tree().paused = false
@@ -61,8 +69,7 @@ var build_type
 
 var last = []
 func _process(_delta):
-	_money.text = str(money)
-	
+	_money.text = str(money)	
 	if money < price_tower_blue:
 		$ui/hud/tower_blue.modulate = Color(1,1,1,.2)
 	if money < price_tower_pink:
@@ -72,6 +79,11 @@ func _process(_delta):
 	
 	if build_mode:
 		update_tower_preview()
+	
+	if win and ! $ui/win/pause_menu.visible:
+		for i in $ui/win.get_children():
+			i.visible = true
+		
 	
 func _unhandled_input(event):
 	if event.is_action_pressed("ui_cancel") and build_mode:
@@ -93,6 +105,9 @@ func _on_tower_purple_pressed():
 		initiate_build_mode("tower_purple")
 
 func initiate_build_mode(tower):
+	$effect.stream = load("res://audio/click_001.ogg")
+	$effect.play()
+	
 	if build_mode:
 		cancel_build_mode()
 	build_mode = true
@@ -137,6 +152,11 @@ var music_bus = AudioServer.get_bus_index("Master")
 func _on_sound_pressed():
 	AudioServer.set_bus_mute(music_bus, ! $ui/pause/sound.pressed)
 
-
 func _on_restart_pressed():
-	pass # Replace with function body.
+	GameData.audio_seek = $backsound.get_playback_position()
+	get_tree().paused = false
+	var i = get_tree().reload_current_scene()
+	print(i)
+
+func _on_next_pressed():
+	print('next level')
